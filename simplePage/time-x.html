@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <p><span id="two"></span></p>
+
+    <script>
+      "use strict";
+
+      (function () {
+        function time (name, action) {
+          var start = Date.now();
+          action();
+          console.log(name, "took", Date.now() - start, "ms");
+        }
+
+        time("clever", function () {
+          var target = document.getElementById("two");
+
+          target.appendChild(document.createTextNode("XXXXX"));
+
+          var total = Math.ceil(2000 / (target.offsetWidth / 5));
+
+          for (var i = 5; i < target; i++) {
+            target.appendChild(document.createTextNode("X"));
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .tab-button {
+        background: #ccc;
+        border-color: #ccc;
+        border-style: solid;
+        border-width: 1px 1px 0;
+        box-sizing: border-box;
+        cursor: pointer;
+      }
+
+      .tab-button.active {
+        background: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="wrapper" class="wrapper">
+      <div data-tabname="one">Tab one</div>
+      <div data-tabname="two">Tab two</div>
+      <div data-tabname="three">Tab three</div>
+    </div>
+
+    <script>
+
+      function asTabs(node) {
+        var children = node.querySelectorAll("div[data-tabname]");
+        var list = document.createElement("div");
+        list.className = "list";
+
+        for (var i = 0; i < children.length; i++) {
+          var button = document.createElement("button");
+          button.textContent = children[i].getAttribute("data-tabname");
+          button.className = "tab-button";
+
+          if (i === 0) {
+            button.className += " active";
+          } else {
+            children[i].style.display = "none";
+          }
+
+          list.appendChild(button);
+        }
+
+        list.addEventListener("click", function (event) {
+          if (event.target && event.target.nodeName === "BUTTON") {
+            document.querySelector("button.tab-button.active").className = "tab-button";
+            event.target.className += " active";
+
+            for (var j = 0; j < children.length; j++) {
+              if (children[j].getAttribute("data-tabname") === event.target.textContent) {
+                children[j].style.display = "block";
+              } else {
+                children[j].style.display = "none";
+              }
+            }
+          }
+        });
+
+        node.insertBefore(list, children[0]);
+      }
+
+      asTabs(document.querySelector("#wrapper"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Merriweather:700);
+
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="title" width="100%" height="100%"></canvas>
+
+    <script>
+      var canvas = document.getElementById("title");
+      var context = canvas.getContext("2d");
+      var text = "Stranger \nThings".toUpperCase();
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      context.fillStyle = "#000";
+      context.fillRect(0,0,canvas.width, canvas.height);
+
+      context.font = "80px Merriweather";
+      var textWidth = context.measureText(text);
+
+      context.shadowColor = "#ff0000";
+      context.shadowBlur = 8;
+      context.strokeStyle = "#ee0000";
+      context.lineWidth = 2;
+      context.strokeText(text, (canvas.width / 2) - (textWidth.width / 2), canvas.height / 2);
+      // context.strokeText(text, canvas.width / 2, canvas.height / 2);
+    </script>
+  </body>
+</html>

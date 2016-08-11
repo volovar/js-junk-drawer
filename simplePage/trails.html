@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background: rgba(0,0,0,0.02);
+        cursor: crosshair;
+        height: 300px;
+        margin: 0;
+        padding: 22px;
+      }
+
+      input[type="number"] {
+        box-sizing: border-box;
+        font: 16px "Helvetica Neue", Arial, sans-serif;
+        position: relative;
+        padding: 4px;
+        width: 120px;
+        z-index: 1;
+      }
+
+      .trail {
+        background: teal;
+        border-radius: 50%;
+        height: 8px; width: 8px;
+        position: absolute;
+      }
+    </style>
+  </head>
+
+  <body>
+    <input type="number">
+
+    <script>
+      function displayCoords (event) {
+        document.body.textContent = "Mouse at " + event.pageX + " " + event.pageY;
+      }
+
+      function createTrails (event, array, amount) {
+        var trail;
+
+        if (array.length < amount) {
+          trail = document.createElement("div");
+          trail.className = "trail";
+          array.push(trail);
+        } else {
+          trail = array[0];
+          array[array.length-1] = array.shift();
+        }
+
+        trail.style.left = event.pageX + "px";
+        trail.style.top = event.pageY + "px";
+
+        document.body.appendChild(trail);
+      }
+
+      var trails = [];
+      var scheduled = false;
+      var lastEvent;
+      var numberOfTrails = 6;
+      var input = document.querySelector("input[type='number']");
+
+      input.value = numberOfTrails;
+      input.addEventListener("change", function (e) {
+        numberOfTrails = input.value;
+      });
+
+      addEventListener("mousemove", function (e) {
+        input.blur();
+        lastEvent = e;
+        // commented out old way of updating with setTimeout
+        // if (!scheduled) {
+        //   scheduled = true;
+        //
+        //   setTimeout(function () {
+        //     // displayCoords(e);
+        //     createTrails(e, trails);
+        //     scheduled = false;
+        //   }, 50);
+        // }
+
+        // this works incorrectly, since `createTrails` doesn't call requestAnimationFrame
+        // TODO change this so the requestAnimationFrame isn't happening inside the mousemove
+        requestAnimationFrame(createTrails(e, trails, numberOfTrails));
+      });
+    </script>
+  </body>
+</html>

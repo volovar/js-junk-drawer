@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+
+  <body>
+    <script>
+      function Level (plan) {
+        this.width = plan[0].length;
+        this.height = plan.length;
+        this.grid = [];
+        this.actors = [];
+
+        for (var y = 0; y < this.height; y++) {
+          var line = plan[y];
+          var gridLine = [];
+
+          for (var x = 0; x < this.width; x++) {
+            var ch = line[x];
+            var fieldType = null;
+            var Actor = actorChars[ch];
+
+            if (Actor) {
+              this.actors.push(new Actor(new Vector(x, y), ch));
+            }
+          }
+        }
+      }
+
+      function element (name, classNames) {
+        var element = document.createElement(name);
+        var classNames = classNames.split(" ");
+
+        for (var c = 0; c < classNames.length; c++) {
+          if (classNames.length === 1) {
+            element.className = classNames[c];
+          } else if (classNames.length - 1 === c) {
+            element.className += classNames[c];
+          } else {
+            element.className += classNames[c] + " ";
+          }
+        }
+
+        return element;
+      }
+    </script>
+  </body>
+</html>

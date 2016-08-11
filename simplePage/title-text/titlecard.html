@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .controls {
+        padding: 8px 12px;
+      }
+
+      .wrapper {
+        background: #000;
+        min-height: 600px;
+        text-align: center;
+      }
+
+      .word {
+        position: relative;
+      }
+
+      .letter {
+        color: red;
+        display: inline-block;
+        font-size: 0;
+        min-height: 40px;
+        position: relative;
+        min-width: 30px;
+      }
+
+      .letter.letter-cap {
+        min-height: 60px;
+      }
+
+      .letter img {
+        display: block;
+      }
+
+      .cls-1{
+        fill: red;
+      }
+
+      img {
+        width: 120px;
+        margin: 20px;
+      }
+
+      .clip-svg {
+        clip-path: url(#myClip);
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/Harry-Potter-1-.jpg" alt="" class="clip-svg">
+
+  <svg width="0" height="0">
+    <defs>
+      <clipPath id="myClip">
+        <circle cx="100" cy="100" r="40"/>
+        <circle cx="60" cy="60" r="40"/>
+      </clipPath>
+    </defs>
+  </svg>
+
+    <div class="controls">
+      <input type="text" class="js-user-text">
+      <button class="js-play-button">Play</button>
+    </div>
+
+    <div class="js-wrapper wrapper"></div>
+
+    <svg width="0" height="0">
+      <defs>
+        <clipPath id="sClip">
+          <!-- <path class="cls-1" d="M.1,6.13H1.4l.33,1.51a.83.83,0,0,0,.41.25A2.41,2.41,0,0,0,2.92,8a1.44,1.44,0,0,0,1-.27A1,1,0,0,0,4,6.37a2.31,2.31,0,0,0-.63-.5q-.4-.23-1.12-.56A3.13,3.13,0,0,1,0,2.45,2.27,2.27,0,0,1,.36,1.24,2.41,2.41,0,0,1,1.44.34,4.45,4.45,0,0,1,3.31,0Q4,0,4.49,0l1,.1L6,.18l-.08,2.2H4.64L4.35,1.12A.61.61,0,0,0,4,1,2.25,2.25,0,0,0,3.45.9a1.16,1.16,0,0,0-.86.28,1,1,0,0,0-.27.69,1,1,0,0,0,.26.67,2.62,2.62,0,0,0,.65.52q.39.23,1.07.56l.17.08a7.58,7.58,0,0,1,1,.59,2.92,2.92,0,0,1,.78.81A2.05,2.05,0,0,1,6.6,6.25a2.81,2.81,0,0,1-.3,1.26,2.37,2.37,0,0,1-1.08,1,4.68,4.68,0,0,1-2.14.41,7.08,7.08,0,0,1-1.28-.11Q1.2,8.71.57,8.54A4.23,4.23,0,0,0,0,8.41Z"/> -->
+          <circle cx="100" cy="100" r="40" />
+        </clipPath>
+      </defs>
+    </svg>
+
+    <script>
+      (function () {
+        var TITLE = "Stranger Things";
+        var container = document.querySelector(".js-wrapper");
+        var input = document.querySelector(".js-user-text");
+        var playButton = document.querySelector(".js-play-button");
+
+        playButton.addEventListener("click", function () {
+          startAnimation();
+        });
+
+        setupAnimation();
+
+        function setupAnimation () {
+          var title = input.value || TITLE;
+
+          title = title.split(" ");
+
+          for (var s = 0; s < title.length; s++) {
+            title[s] = title[s].split("");
+          }
+
+          title.forEach(function (str) {
+            console.log(str);
+            var word = document.createElement("div");
+            word.className = "word";
+
+            for (var j = 0; j < str.length; j++) {
+              var letter = createLetter(str[j]);
+              word.appendChild(letter);
+            }
+
+            container.appendChild(word);
+          });
+        }
+
+        function createLetter (letter) {
+          var urlBase = "./letters/"
+          var elem = document.createElement("div");
+          var img = document.createElement("img");
+          elem.className = "letter";
+          elem.textContent = letter;
+
+          switch (letter.toUpperCase()) {
+            case "A":
+              img.src = urlBase + "a.svg";
+              break;
+            case "E":
+              img.src = urlBase + "e.svg";
+              break;
+            case "G":
+              img.src = urlBase + "g.svg";
+              break;
+            case "H":
+              img.src = urlBase + "h.svg";
+              break;
+            case "N":
+              img.src = urlBase + "n.svg";
+              break;
+            case "R":
+              img.src = urlBase + "r.svg";
+              break;
+            case "S":
+              elem.style["clip-path"] = "url(#sClip)";
+              // elem.style.clipPath = "url(#s-clip)"
+              break;
+            case "T":
+              img.src = urlBase + "t.svg";
+              break;
+            default:
+              img.src = urlBase + "a.svg";
+          }
+
+          elem.appendChild(img);
+
+          return elem;
+        }
+
+        function startAnimation () {
+          console.log(input);
+        }
+      })();
+    </script>
+  </body>
+</html>

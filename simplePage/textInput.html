@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font: 16px "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 22px;
+      }
+
+      .editor {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 16px;
+        padding: 8px;
+      }
+
+      .editor[contenteditable="true"] {
+        border-color: maroon;
+      }
+
+      .preview {
+        box-sizing: border-box;
+        padding: 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <p>Type something:</p>
+    <div class="editor" contenteditable="true"></div>
+    <div class="preview"></div>
+
+    <script>
+      var editor = document.querySelector("div.editor");
+      var preview = document.querySelector("div.preview");
+      var timeout;
+
+      editor.addEventListener("keydown", function (event) {
+        clearTimeout(timeout);
+
+        timeout = setTimeout(function () {
+          preview.textContent = editor.textContent;
+        }, 250);
+      });
+    </script>
+  </body>
+</html>

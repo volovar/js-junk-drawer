@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <ul id="js-city-list">
+      <li><a href="#" data-city="la">Los Angeles</a></li>
+      <li><a href="#" data-city="oak">Oakland</a></li>
+      <li><a href="#" data-city="sf">San Francisco</a></li>
+    </ul>
+
+    <div>
+      <p data-info="la">Some info about LA</p>
+      <p data-info="oak">Some info about Oakland</p>
+      <p data-info="sf">Some info about SF</p>
+    </div>
+
+    <script>
+      "use strict";
+
+      document.addEventListener("DOMContentLoaded", function (e) {
+        (function () {
+          var cityList = document.getElementById("js-city-list");
+          var links = cityList.getElementsByTagName("a");
+          var paras = document.body.getElementsByTagName("p");
+
+          for (var i = paras.length - 1; i >= 0; i--) {
+            paras[i].style.display = "none";
+          }
+
+          cityList.addEventListener("click", function (e) {
+            if (e.target && e.target.nodeName === "A") {
+              e.preventDefault();
+              var city = e.target.getAttribute("data-city");
+
+              for (var i = paras.length-1; i >=0; i--) {
+                if (paras[i].getAttribute("data-info") === city) {
+                  paras[i].style.display = "block";
+                } else {
+                  paras[i].style.display = "none";
+                }
+              }
+            }
+          });
+        })();
+      });
+    </script>
+  </body>
+</html>
