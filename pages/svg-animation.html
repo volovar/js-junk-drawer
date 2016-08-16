@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font: 16px "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 22px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>&ldquo;Fun&rdquo; with SVG gradients</h1>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="300px" style="margin: 16px; display: block;">
+      <defs>
+        <linearGradient id="gradient-a" gradientUnits="userSpaceOnUse" gradientTransform="rotate(56 0.5 0.5)" x2="118%">
+          <stop offset="0%" style="stop-color: #f94793;" />
+          <stop offset="50%" style="stop-color: #f94793;" />
+          <stop offset="50%" style="stop-color: #14c4f3" />
+          <stop offset="100%" style="stop-color: #14c4f3" />
+        </linearGradient>
+      </defs>
+
+      <rect x="0" y="0" width="480" height="320" fill="url(#gradient-a)" />
+
+    </svg>
+
+    <label for="gradient-control">Slide to move gradient stops</label>
+    <input id="gradient-control" type="range" min="0" max="100" />
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="300px" style="margin: 16px; display: block;">
+      <defs>
+        <linearGradient id="gradient-b" gradientUnits="userSpaceOnUse" gradientTransform="rotate(56 0.5 0.5)" x2="118%">
+          <stop offset="0%" style="stop-color: #14c4f3;" />
+          <stop offset="0%" style="stop-color: #14c4f3;" />
+          <stop offset="0%" style="stop-color: #f94793" />
+          <stop offset="100%" style="stop-color: #f94793" />
+        </linearGradient>
+      </defs>
+
+      <rect x="0" y="0" width="480" height="320" fill="url(#gradient-b)" />
+    </svg>
+
+    <button id="gradient-animate">Play animation</button>
+
+    <script>
+    (function () {
+      var gradientA = document.querySelector("#gradient-a");
+      var gradientB = document.querySelector("#gradient-b");
+      var isPlaying = false;
+
+      document.querySelector("#gradient-control").addEventListener("input", function () {
+        moveStop(gradientA, this.value);
+      });
+
+      document.querySelector("#gradient-animate").addEventListener("click", function () {
+        if (!isPlaying) {
+          window.requestAnimationFrame(cycleGradient);
+        }
+      });
+
+      function moveStop (gradient, offset) {
+        // alternate method to animate:
+        // gradient.children[1].offset.baseVal = (offset/100);
+        gradient.children[1].setAttribute("offset", offset + "%");
+        gradient.children[2].setAttribute("offset", offset + "%");
+      }
+
+      function cycleGradient () {
+        isPlaying = true;
+        var currentOffset = gradientB.children[1].getAttribute("offset");
+
+        currentOffset = Number(currentOffset.replace("%", ""));
+        console.log(currentOffset);
+        moveStop(gradientB, currentOffset + 1);
+
+        if (currentOffset < 100) {
+          window.requestAnimationFrame(cycleGradient);
+        } else {
+          setTimeout(function () {
+            moveStop(gradientB, 0);
+            isPlaying = false;
+          }, 600)
+        }
+      }
+    })();
+    </script>
+  </body>
+</html>
