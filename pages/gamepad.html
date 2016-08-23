@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font: 16px "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 22px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Gamepads</h1>
+
+    <script>
+      // function runAnimation () {
+      //   window.requestAnimationFrame(runAnimation);
+      //
+      //   var gamepads = navigator.getGamepads();
+      //
+      //   for (var i = 0; i < gamepads.length; ++i) {
+      //     var pad = gamepads[i];
+      //
+      //     console.log(pad);
+      //   }
+      // }
+      //
+      // window.requestAnimationFrame(runAnimation);
+      var gamepads = navigator.getGamepads();
+
+      // console.log(gamepads);
+
+      window.addEventListener("gamepadconnected", function (e) {
+        console.log("New gamepade connected: ", e.gamepad);
+        // console.log(navigator.getGamepads());
+      });
+
+      window.addEventListener("gamepaddisconnected", function (e) {
+        console.log("Gamepad disconnected");
+        // console.log(navigator.getGamepads());
+      });
+
+      for (var i = 0; i < navigator.getGamepads().length; i++) {
+        if (navigator.getGamepads()[i]) {
+          console.log(navigator.getGamepads()[i]);
+          navigator.getGamepads()[i].addEventListener("change", function (e) {
+            console.log(e);
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

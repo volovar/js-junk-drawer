@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font: 16px "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 22px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Github charting</h1>
+
+    <label for="username-input">Enter username</label>
+    <input id="username-input" type="text" />
+
+    <script>
+    // (function () {
+      var httpReq = new XMLHttpRequest();
+      var username = "octocat";
+      var data;
+      var setNameTimeout;
+
+      document.querySelector("#username-input").addEventListener("input", function () {
+        username = this.value;
+        clearTimeout(setNameTimeout);
+
+        setNameTimeout = setTimeout(function () {
+          console.log(this);
+          getGitEvents();
+        }, 600);
+      });
+
+      httpReq.onreadystatechange = function () {
+        if (httpReq.readyState === XMLHttpRequest.DONE) {
+          if (httpReq.status === 200) {
+            data = JSON.parse(httpReq.responseText);
+            console.log("data received");
+          } else {
+            alert("There was a problem.");
+          }
+        }
+      };
+
+      function getGitEvents () {
+        httpReq.open("GET", "https://api.github.com/users/" + username + "/events", true);
+        httpReq.send(null);
+      }
+
+      getGitEvents();
+    // })();
+    </script>
+  </body>
+</html>
